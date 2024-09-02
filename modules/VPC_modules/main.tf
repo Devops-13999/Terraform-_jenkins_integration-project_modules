@@ -17,7 +17,7 @@ resource "aws_vpc" "VPC" {
 resource "aws_subnet" "Public_Subnet" {
   vpc_id = aws_vpc.VPC.id
   cidr_block = var.subnet_cidr_block
-  availability_zone = element(local.az,0)
+  availability_zone = var.availability_zone
   map_public_ip_on_launch = true
   tags = {
     Name = "${local.Environment}-${local.Project_Name}-Public_Subnet"

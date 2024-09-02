@@ -13,3 +13,7 @@ output "subnet_cidr_block" {
 output "env" {
   value = module.VPC_Module.env
 }
+
+output "availability_zone" {
+  value = module.EC2_Module.availability_zone-ec2
+}

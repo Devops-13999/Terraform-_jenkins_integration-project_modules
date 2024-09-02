@@ -4,6 +4,7 @@ module "EC2_Module" {
   security_group_id_vpc  = [ module.Security_group_module.security_group_id ]
   env              = var.env
   instance_type    = var.instance_type
+  availability_zone = element(module.VPC_Module.az,0)
   subnet_id = module.VPC_Module.subnet_id
   user_data =  <<-EOF
               #!/bin/bash
@@ -11,6 +12,7 @@ module "EC2_Module" {
               sudo apt-get install -y nginx
               sudo systemctl start nginx
               EOF
+
 
 }
 
@@ -27,5 +29,5 @@ module "Security_group_module" {
   source = "../modules/Security_group_modules"
   env = var.env
   ingress_rules = var.ingress_rules
-  vpc_id = var.cidr_vpc
+  vpc_id = module.VPC_Module.vpc_id
 }

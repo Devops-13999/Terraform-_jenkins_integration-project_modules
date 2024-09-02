@@ -18,7 +18,7 @@ locals {
 
 resource "aws_instance" "Module_Server" {
   instance_type = var.instance_type
-  availability_zone = element(local.az,0)
+  availability_zone =  var.availability_zone
   ami = data.aws_ami.ami_name.id
   vpc_security_group_ids = var.security_group_id_vpc
   user_data = var.user_data

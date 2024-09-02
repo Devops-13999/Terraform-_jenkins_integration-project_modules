@@ -27,3 +27,8 @@ variable "security_group_id_vpc" {
   description = "security group id"
   type        = list(string)
 }
+
+variable "availability_zone" {
+  description = "avaibility zone"
+  type = string
+}
