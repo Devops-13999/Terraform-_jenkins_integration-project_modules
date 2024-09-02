@@ -9,9 +9,9 @@ module "EC2_Module" {
   source = "../modules/EC2_modules"
   region           = var.region
   env              = var.env
-  vpc_security_group_ids = [ module.Security_group_module.security_group_id ]
   instance_type    = var.instance_type
   subnet_id = ""
+  security_group_id_vpc  = [ module.Security_group_module.security_group_id ]
   user_data = <<-EOF
   #!/bin/bash
   sudo apt update
@@ -21,7 +21,7 @@ module "EC2_Module" {
   sudo apt update
   sudo apt install jenkins -y
   sudo systemctl status jenkins
-  EOF            
+  EOF        
   }
 
 module "Security_group_module" {

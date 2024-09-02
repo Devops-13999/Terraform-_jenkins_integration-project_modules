@@ -2,9 +2,8 @@ module "EC2_Module" {
   source = "../modules/EC2_modules"
   region           = var.region
   env              = var.env
-  vpc_id           = module.VPC_Module.vpc_id
   instance_type    = var.instance_type
-  ingress_rules    = var.ingress_rules
+  security_group_id_vpc  = [ module.Security_group_module.security_group_id ]
   subnet_id = module.VPC_Module.subnet_id
   user_data =  <<-EOF
               #!/bin/bash
@@ -23,4 +22,9 @@ module "VPC_Module" {
   availability_zone = element(module.VPC_Module.az,2)
 }
 
-
+module "Security_group_module" {
+  source = "../modules/Security_group_modules"
+  env = var.env
+  ingress_rules = var.ingress_rules
+  vpc_id = var.cidr_vpc
+}

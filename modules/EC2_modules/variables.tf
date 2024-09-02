@@ -13,18 +13,6 @@ variable "env" {
   type = string
 }
 
-variable "ingress_rules" {
-  type = map(object({
-    port = number
-    description = string
-    cidr = string
-  }))
-}
-
-variable "vpc_id" {
-  type = string
-}
-
 variable "subnet_id" {
   description = "Subnet id for the subnet in which you want to create infra"
   type = string
@@ -33,5 +21,9 @@ variable "subnet_id" {
 variable "user_data" {
   description = "User data script to run on instance launch"
   type        = string
-  default     = ""
+}
+
+variable "security_group_id_vpc" {
+  description = "security group id"
+  type        = list(string)
 }
