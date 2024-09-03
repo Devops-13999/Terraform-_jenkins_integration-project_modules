@@ -71,7 +71,7 @@ pipeline{
             steps {
                 script {
                     // Run Terraform destroy with confirmation
-                    sh 'pwd; cd ${ENV}; terraform destroy -var-file="dev.tfvars"'
+                    sh 'pwd; cd ${ENV}; terraform destroy -auto-approve'
                 }
             }
         }
