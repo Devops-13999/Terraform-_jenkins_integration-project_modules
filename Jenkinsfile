@@ -9,6 +9,7 @@ pipeline{
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY_ID')
         ENV = 'Dev_Environment'
+        FILE = 'dev.tfvars'
     }
     agent any
     stages{
@@ -71,7 +72,7 @@ pipeline{
             steps {
                 script {
                     // Run Terraform destroy with confirmation
-                    sh 'pwd; cd ${ENV}; terraform destroy -auto-approve'
+                    sh 'pwd; cd ${ENV}; terraform destroy -var-file="${FILE}" -auto-approve'
                 }
             }
         }
