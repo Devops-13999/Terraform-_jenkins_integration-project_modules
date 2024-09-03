@@ -1,0 +1,55 @@
+pipeline{
+    parameters{
+        booleanParam(name:'autoapprove' , defaultValue:false , description:'Automatically run apply after plan?')
+    }
+    environment{
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY_ID = credentials('AWS_SECRET_ACCESS_KEY_ID')
+    }
+    agent any
+    stages{
+        stage('checkout'){
+            steps{
+                git = "https://github.com/Devops-13999/Terraform-_jenkins_integration-project_modules.git"
+            }
+            post{
+                success{
+                    echo "Checkout tage succesful"
+                }
+                failure{
+                    echo "Checkout Failed"
+                }
+            }
+        }
+        stage('Terraform Init'){
+            steps{
+                sh 'pwd;terraform init'
+            }
+        }
+        stage('Terraform Plan'){
+            steps{
+                sh 'terraform plan -var-file="dev.tfvars" -out=tfplan'
+                sh 'terraform show -no-color tfplan > tfplan.txt'
+            }
+        }
+        stage('Terraform Approval'){
+            when{
+                not{
+                    equals expected: true actual: params.autoapprove
+                }
+            }
+            steps{
+                script{
+                    def plan = readfile 'tfplan.txt'
+                    input message: "Do you want to apply the plan"
+                    parameters: [text(name:'Plan' ; defaultValue:plan ; description: 'please review the plan')]
+                }
+            }
+        }
+        stage('Apply'){
+            steps{
+                sh 'terraform apply -input=false tfplan'
+            }
+        }
+    }
+ }
