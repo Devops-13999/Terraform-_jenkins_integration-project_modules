@@ -35,7 +35,7 @@ pipeline{
         stage('Terraform Approval'){
             when{
                 not{
-                    equals expected: true actual: params.autoapprove
+                    equals expected: true, actual: params.autoapprove
                 }
             }
             steps{
