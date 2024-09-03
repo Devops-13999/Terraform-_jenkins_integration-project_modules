@@ -8,8 +8,8 @@ pipeline{
     environment{
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY_ID')
-        ENV = 'QA_Environment'
-        FILE = 'qa.tfvars'
+        ENV = 'Prod_Environment'
+        FILE = 'prod.tfvars'
     }
     agent any
     stages{
