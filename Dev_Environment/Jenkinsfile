@@ -64,7 +64,7 @@ pipeline{
             steps{
                 script{
                     def plan = readFile 'tfplan.txt'
-                    input message: "Do you want to apply the plan"
+                    input message: "Do you want to destroy infra"
                     parameters: [text(name:'Plan' , defaultValue:plan , description: 'please review the plan')]
                 }
             }
