@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage('checkout'){
             steps{
-                git = "https://github.com/Devops-13999/Terraform-_jenkins_integration-project_modules.git"
+                git "https://github.com/Devops-13999/Terraform-_jenkins_integration-project_modules.git"
             }
             post{
                 success{
