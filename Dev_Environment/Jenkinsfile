@@ -55,6 +55,20 @@ pipeline{
                 sh 'pwd; cd ${ENV}; terraform apply -input=false tfplan'
             }
         }
+        stage('Terraform destroy approval'){
+            when{
+                not{
+                    equals expected: true, actual: params.autoapprove
+                }
+            }
+            steps{
+                script{
+                    def plan = readFile 'tfplan.txt'
+                    input message: "Do you want to apply the plan"
+                    parameters: [text(name:'Plan' , defaultValue:plan , description: 'please review the plan')]
+                }
+            }
+        }
         stage('Terraform Destroy') {
             steps {
                 script {
