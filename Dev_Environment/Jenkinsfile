@@ -8,6 +8,7 @@ pipeline{
     environment{
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY_ID')
+        Env = 'Dev_Environment'
     }
     agent any
     stages{
@@ -17,7 +18,7 @@ pipeline{
             }
             post{
                 success{
-                    echo "Checkout tage succesful"
+                    echo "Checkout Stage succesful"
                 }
                 failure{
                     echo "Checkout Failed"
@@ -26,13 +27,13 @@ pipeline{
         }
         stage('Terraform Init'){
             steps{
-                sh 'pwd; cd Dev_Environment; terraform init'
+                sh 'pwd; cd ${ENV}; terraform init'
             }
         }
         stage('Terraform Plan'){
             steps{
-                sh 'pwd; cd Dev_Environment; terraform plan -var-file="dev.tfvars" -out=tfplan'
-                sh 'pwd; cd Dev_Environment; terraform show -no-color tfplan > tfplan.txt'
+                sh 'pwd; cd ${ENV}; terraform plan -var-file="dev.tfvars" -out=tfplan'
+                sh 'pwd; cd ${ENV}; terraform show -no-color tfplan > tfplan.txt'
             }
         }
         stage('Terraform Approval'){
@@ -51,14 +52,14 @@ pipeline{
         }
         stage('Apply'){
             steps{
-                sh 'pwd; cd Dev_Environment; terraform apply -input=false tfplan'
+                sh 'pwd; cd ${ENV}; terraform apply -input=false tfplan'
             }
         }
         stage('Terraform Destroy') {
             steps {
                 script {
                     // Run Terraform destroy with confirmation
-                    sh 'pwd; cd Dev_Environment; terraform destroy -var-file="dev.tfvars" -auto-approve'
+                    sh 'pwd; cd ${ENV}; terraform destroy -var-file="dev.tfvars" -auto-approve'
                 }
             }
         }
