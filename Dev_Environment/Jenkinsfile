@@ -54,5 +54,13 @@ pipeline{
                 sh 'pwd; cd Dev_Environment; terraform apply -input=false tfplan'
             }
         }
+        stage('Terraform Destroy') {
+            steps {
+                script {
+                    // Run Terraform destroy with confirmation
+                    sh 'pwd; cd Dev_Environment; terraform destroy -auto-approve'
+                }
+            }
+        }
     }
  }
