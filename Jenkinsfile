@@ -33,7 +33,7 @@ pipeline{
         }
         stage('Terraform Plan'){
             steps{
-                sh 'pwd; cd ${ENV}; terraform plan -var-file="dev.tfvars" -out=tfplan'
+                sh 'pwd; cd ${ENV}; terraform plan -var-file="${FILE}" -out=tfplan'
                 sh 'pwd; cd ${ENV}; terraform show -no-color tfplan > tfplan.txt'
             }
         }
