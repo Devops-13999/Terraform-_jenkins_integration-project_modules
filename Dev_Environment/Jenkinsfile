@@ -58,7 +58,7 @@ pipeline{
             steps {
                 script {
                     // Run Terraform destroy with confirmation
-                    sh 'pwd; cd Dev_Environment; terraform destroy -auto-approve'
+                    sh 'pwd; cd Dev_Environment; terraform destroy tfplan -auto-approve'
                 }
             }
         }
