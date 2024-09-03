@@ -2,7 +2,7 @@ module "EC2_Module" {
   source = "../modules/EC2_modules"
   region           = var.region
   env              = var.env
-  availability_zone = element(module.VPC_Module.az,2)
+  availability_zone = element(module.VPC_Module.az,1)
   instance_type    = var.instance_type
   security_group_id_vpc  = [ module.Security_group_module.security_group_id ]
   subnet_id = module.VPC_Module.subnet_id
@@ -20,7 +20,7 @@ module "VPC_Module" {
   env = var.env
   cidr_vpc = var.cidr_vpc
   subnet_cidr_block = cidrsubnet(var.cidr_vpc,8,2)
-  availability_zone = element(module.VPC_Module.az,2)
+  availability_zone = element(module.VPC_Module.az,1)
 }
 
 module "Security_group_module" {
