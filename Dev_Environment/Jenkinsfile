@@ -26,13 +26,13 @@ pipeline{
         }
         stage('Terraform Init'){
             steps{
-                sh 'pwd; cd Dev_Environment terraform init'
+                sh 'pwd; cd Dev_Environment; terraform init'
             }
         }
         stage('Terraform Plan'){
             steps{
-                sh 'terraform plan -var-file="Dev_Environment/dev.tfvars" -out=tfplan'
-                sh 'terraform show -no-color tfplan > tfplan.txt'
+                sh 'pwd; cd Dev_Environment; terraform plan -var-file="Dev_Environment/dev.tfvars" -out=tfplan'
+                sh 'pwd; cd Dev_Environment; terraform show -no-color tfplan > tfplan.txt'
             }
         }
         stage('Terraform Approval'){
@@ -51,7 +51,7 @@ pipeline{
         }
         stage('Apply'){
             steps{
-                sh 'terraform apply -input=false tfplan'
+                sh 'pwd; cd Dev_Environment; terraform apply -input=false tfplan'
             }
         }
     }
